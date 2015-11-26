@@ -8,7 +8,7 @@ Install
 ------------------------------------
 
 ```
-npm install log-tail
+npm install -g log-tail
 ```
 
 Usage
