@@ -1,0 +1,24 @@
+Log-tail
+===========
+
+Tails a log file( or any file ) and view it in a browser.
+On change auto-updates the window.
+
+Install
+------------------------------------
+
+```
+npm install log-tail
+```
+
+Usage
+------------------------------------
+
+```
+log-tail example.log
+```
+
+TODO
+------------------------------------
+* Run multiple files and update the UI to have tabs per file.
+* Run with wildcard files
