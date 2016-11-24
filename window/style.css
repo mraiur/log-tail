@@ -8,6 +8,30 @@ body, html{
     min-height: 100%;
     width: 100%;
 }
+
 #output{
     min-height: 100%;
+    margin-top: 20px;
+}
+
+#information_bar
+{
+    background-color: #282a2d;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    height: 20px;
+
+    color: #FFFFFF;
+}
+
+#file_name
+{
+    margin-left: 8px;
+}
+
+#modify_time
+{
+    float:right;
+    margin-right: 8px;
 }
