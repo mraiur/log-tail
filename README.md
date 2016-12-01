@@ -16,7 +16,13 @@ Usage
 
 ```
 log-tail example.log
+
 ```
+
+# Demo
+
+[![Demo](http://img.youtube.com/vi/ec66dkIWcho/0.jpg)](https://youtu.be/ec66dkIWcho)
+
 
 TODO
 ------------------------------------
