@@ -33,17 +33,23 @@ function format(text)
 
     socket.on('update', function (data)
     {
-        if( cache[data.file] && cache[data.file].meta.ctime == data.meta.ctime )
+        if( cache[data.file] && data.content.length >= cache[data.file].content.length )
         {
+            console.log("update content", data.file);
+
             var newData = data.content.substr(cache[data.file].length, data.content.length);
             output.innerHTML += format(newData);
+            cache[data.file] = data;
         }
         else
         {
+            console.log("refresh content", data.file);
+
             output.innerHTML = format(data.content);
             cache[data.file] = data;
             cache[data.file].html = output.innerHTML;
         }
+
 
         if( data.file )
         {
