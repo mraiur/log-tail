@@ -37,7 +37,7 @@ function format(text)
         {
             console.log("update content", data.file);
 
-            var newData = data.content.substr(cache[data.file].length, data.content.length);
+            var newData = data.content.substr(cache[data.file].content.length, data.content.length);
             output.innerHTML += format(newData);
             cache[data.file] = data;
         }
