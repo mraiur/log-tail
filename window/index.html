@@ -8,9 +8,21 @@
     <script src="/../socket.io/socket.io.js"></script>
 </head>
 <body>
-    <div id="output"></div>
+    <div id="output-container">
+        <div id="output"></div>
+    </div>
+    <div id="settings_bar">
+        <div class="header">
+            <span class="text">Controls</span>
+            <span id="collapse_settings_bar" class="button icon-button">↑</span>
+            <span class="clear"></span>
+        </div>
+        <div id="settings_bar_content" class="content">
+            <div class="row">Scroll to bottom <input id="autoScroll" type="checkbox" checked="checked" /></div>
+            <div class="row">Render output <input id="renderOutput" type="checkbox" checked="checked" /></div>
+        </div>
+    </div>
     <div id="information_bar">
-
         <span id="file_name"></span>
         <span id="modify_time"></span>
     </div>
