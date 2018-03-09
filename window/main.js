@@ -1,4 +1,8 @@
+var settingsExpanded = true;
 var tabHTML = "&nbsp;&nbsp;";
+var autoScroll = true;
+var renderOutput = true;
+var fileName;
 
 function format(text)
 {
@@ -24,15 +28,59 @@ function format(text)
     return rows.join("<br />");
 }
 (function() {
+    var socket = io();
+    var cache = {};
+    var outputContainer = document.getElementById("output-container");
     var output = document.getElementById('output');
     var fileEl = document.getElementById('file_name');
     var modifyTimeEl = document.getElementById('modify_time');
+    var toggleSettingsBtn = document.getElementById('collapse_settings_bar');
+    var autoScrollCheckbox = document.getElementById('autoScroll');
+    var renderOutputCheckbox = document.getElementById('renderOutput');
+    var settingsBar = document.getElementById('settings_bar');
 
-    var socket = io();
-    var cache = {};
+    toggleSettingsBtn.addEventListener('click', function(){
+        if( settingsExpanded )
+        {
+            toggleSettingsBtn.innerHTML= "↓";
+            settingsExpanded = false;
+            settingsBar.classList.add('collapsed');
+        }
+        else
+        {
+            toggleSettingsBtn.innerHTML= "↑";
+            settingsBar.classList.remove('collapsed');
+            settingsExpanded = true;
+        }
+    });
+
+    autoScrollCheckbox.addEventListener('change', function() { 
+        autoScroll = this.checked;
+    });
+    
+    renderOutputCheckbox.addEventListener('change', function() { 
+        renderOutput = this.checked;
+
+        if( renderOutput )
+        {
+            var el = document.createElement("div");
+        }
+        else
+        {
+            var el = document.createElement("textarea");
+        }
+        
+        el.id="output";
+        
+        output.replaceWith(el);
+        output = document.getElementById('output');
+
+
+    });
 
     socket.on('update', function (data)
     {
+        fileName = data.file;
         if( cache[data.file] && data.content.length >= cache[data.file].content.length )
         {
             console.log("update content", data.file);
@@ -45,9 +93,18 @@ function format(text)
         {
             console.log("refresh content", data.file);
 
-            output.innerHTML = format(data.content);
+
             cache[data.file] = data;
             cache[data.file].html = output.innerHTML;
+
+            if( renderOutput )
+            {
+                output.innerHTML = format(data.content);    
+            }
+            else
+            {
+                output.value = data.content;
+            }
         }
 
 
@@ -61,6 +118,9 @@ function format(text)
             modifyTimeEl.innerHTML = (data.meta.mtime)?data.meta.mtime:data.meta.ctime;
         }
 
-        scroll(0, output.scrollHeight);
+        if(autoScroll)
+        {
+            scroll(0, output.scrollHeight);
+        }
     });
 })();

@@ -9,9 +9,40 @@ body, html{
     width: 100%;
 }
 
-#output{
+.clear{
+    clear: both;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    border: 0;
+    display: block;
+}
+
+.button
+{
+    border: solid gray 1px;
+    padding: 4px;
+    background-color: gray;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.icon-button
+{
+    padding: 2px 6px;
+    color: white;
+    font-weight: bold;
+}
+
+#output-container{
     min-height: 100%;
     margin-top: 20px;
+    display: flex;
+}
+
+#output{
+    min-height: 100%;
+    flex: 1; /* consume available width */
 }
 
 #information_bar
@@ -25,6 +56,7 @@ body, html{
     color: #FFFFFF;
 }
 
+
 #file_name
 {
     margin-left: 8px;
@@ -34,4 +66,46 @@ body, html{
 {
     float:right;
     margin-right: 8px;
+}
+
+
+#settings_bar
+{
+    position: fixed;
+    top: 26px;
+    right: 0;
+    width: 200px;
+    border: solid gray 1px;
+    border-radius: 5px;
+    background-color: #e4e4e4;
+}
+
+#settings_bar.collapsed
+{
+    width: 32px;
+}
+
+#settings_bar.collapsed .header .text{
+    display: none;
+}
+
+#settings_bar.collapsed .content{
+    display: none;
+}
+
+#settings_bar .header{
+    padding: 4px;
+    background-color: #b1b0b0;
+}
+
+#settings_bar .header .button{
+    float: right;
+}
+
+#settings_bar .content{
+    padding: 8px;
+}
+
+#settings_bar .content .row{
+    padding:4px 0;
 }
