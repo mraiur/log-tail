@@ -1,4 +1,4 @@
-var settingsExpanded = true;
+var settingsCollapsed = false;
 var tabHTML = "&nbsp;&nbsp;";
 var autoScroll = true;
 var renderOutput = true;
@@ -39,27 +39,51 @@ function format(text)
     var renderOutputCheckbox = document.getElementById('renderOutput');
     var settingsBar = document.getElementById('settings_bar');
 
-    toggleSettingsBtn.addEventListener('click', function(){
-        if( settingsExpanded )
+    var setSettingsUIState = function(){
+        if( settingsCollapsed )
         {
             toggleSettingsBtn.innerHTML= "↓";
-            settingsExpanded = false;
             settingsBar.classList.add('collapsed');
         }
         else
         {
             toggleSettingsBtn.innerHTML= "↑";
             settingsBar.classList.remove('collapsed');
-            settingsExpanded = true;
         }
+    };
+
+    toggleSettingsBtn.addEventListener('click', function(){
+        settingsCollapsed = !settingsCollapsed;
+        setSettingsUIState();
+        localStorage.setItem('settingsCollapsed', settingsCollapsed);
     });
+
+    if( localStorage.getItem('settingsCollapsed') === "true" )
+    {
+        settingsCollapsed = true;
+        setSettingsUIState();
+    }
+    
 
     autoScrollCheckbox.addEventListener('change', function() { 
         autoScroll = this.checked;
+        localStorage.setItem('autoScroll', this.checked);
     });
+
+
+    if( localStorage.getItem('autoScroll') === "false" )
+    {
+        autoScroll = false;
+        autoScrollCheckbox.checked = false;
+        setTimeout( function(){
+            scroll(0, 0);
+        }, 500);
+    }
     
     renderOutputCheckbox.addEventListener('change', function() { 
+
         renderOutput = this.checked;
+        localStorage.setItem('renderOutput', this.checked);
 
         if( renderOutput )
         {
@@ -74,9 +98,13 @@ function format(text)
         
         output.replaceWith(el);
         output = document.getElementById('output');
-
-
     });
+
+    if( localStorage.getItem('renderOutput') === "false" )
+    {
+        renderOutput = false;
+        renderOutputCheckbox.checked = false;
+    }
 
     socket.on('update', function (data)
     {
@@ -92,7 +120,6 @@ function format(text)
         else
         {
             console.log("refresh content", data.file);
-
 
             cache[data.file] = data;
             cache[data.file].html = output.innerHTML;
